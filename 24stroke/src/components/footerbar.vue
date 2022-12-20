@@ -62,9 +62,9 @@
                                 <div class="row">
                                     <div class="taal">
                                         <h1>Taal</h1>
-                                        <img src="img/icon/dutch-flag.png" alt="dutch-flag" width="35px" height="35px"
+                                        <img src="http://localhost:8080/img/icon/dutch-flag.png" alt="dutch-flag" width="35px" height="35px"
                                             style="margin-left: 2px; margin-right: 10px;">
-                                        <img src="img/icon/united-kingdom.png" alt="united-kingdom" width="35px"
+                                        <img src="http://localhost:8080/img/icon/united-kingdom.png" alt="united-kingdom" width="35px"
                                             height="35px">
                                     </div>
                                 </div>

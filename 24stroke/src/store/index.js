@@ -29,6 +29,9 @@ export default new Vuex.Store({
     wishlist: {
       items: []
     },
+    recentlyViewed: {
+      items: []
+    }
   },
 
   mutations: {
@@ -67,6 +70,14 @@ export default new Vuex.Store({
       }
 
       localStorage.setItem('cart', JSON.stringify(state.cart))
+    },
+    addToRecentlyViewed(state, item) {
+      state.recentlyViewed.items.push(item)
+      localStorage.setItem('recentlyViewed', JSON.stringify(state.recentlyViewed))
+    },
+    removeFromRecentlyViewed(state) {
+      state.recentlyViewed.shift()
+      localStorage.setItem('recentlyViewed', JSON.stringify(state.recentlyViewed))
     },
     addToWishlist(state, item) {
       state.wishlist.items.push(item)

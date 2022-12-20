@@ -4,7 +4,7 @@
             <div class="grayrow col-12">
                 <div class="row grayrowheight">
                     <div class="logo col-3">
-                        <img src="img/logo/logoipsum-logo-40.svg" alt="logo">
+                        <img class="logo-twentyfourstroke" src="http://localhost:8080/img/logo/24stroke-logo.png" alt="logo">
                     </div>
                     <div class="searchbar form-group col-3">
                         <form method="get" action="/search"><input type="text" class="form-control"
@@ -14,7 +14,7 @@
                         <router-link to="/account">
                             <div class="row">
                                 <div class="helmetimage col-3">
-                                    <img src="img/icon/full-motorcycle-helmet.svg" alt="motorcyclehelmet" width="40px"
+                                    <img src="http://localhost:8080/img/icon/full-motorcycle-helmet.svg" alt="motorcyclehelmet" width="40px"
                                         height="40px">
                                 </div>
                                 <div class="accounttext col-9">
@@ -133,6 +133,16 @@ export default {
 </script>
 
 <style>
+.logo-twentyfourstroke {
+    display: block;
+    max-width: 140px;
+    max-height: 45px;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .app-navigation {
     margin-bottom: 110px;
 }
