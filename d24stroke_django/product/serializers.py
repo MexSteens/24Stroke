@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category, Product, Image
+from .models import Category, Product, Image, TechnicalDetails
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,18 +11,24 @@ class ImageSerializer(serializers.ModelSerializer):
             "default"
         )
 
+class TechnicalDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TechnicalDetails
+        fields = '__all__'
+
 class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
+    technical_details = TechnicalDetailsSerializer()
     class Meta:
         model = Product
         fields = (
             "id",
             "name",
-            "get_absolute_url",
             "description",
             "price",
-            # "get_image",
+            "technical_details",
             "images",
+            "get_absolute_url",
             "get_thumbnail"
         )
 
