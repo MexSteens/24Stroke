@@ -19,6 +19,7 @@ import Checkout from '../views/checkout/checkout.vue'
 import CheckoutAdres from '../views/checkout/checkoutaddress.vue'
 import CheckoutBetaling from '../views/checkout/checkoutpayment.vue'
 import CheckoutVerifieren from '../views/checkout/checkoutverify.vue'
+import CheckoutAccountLoggedIn from '../views/checkout/checkoutauth.vue'
 
 
 
@@ -49,6 +50,11 @@ const routes = [
     path: '/checkout',
     name: 'checkout',
     component: Checkout
+  },
+  {
+    path: '/checkout-auth',
+    name: 'checkoutauth',
+    component: CheckoutAccountLoggedIn
   },
   {
     path: '/checkout-adres',

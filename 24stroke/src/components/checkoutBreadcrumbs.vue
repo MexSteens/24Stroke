@@ -5,8 +5,8 @@
             <span>Winkelwagen</span></router-link>
         </div>
         <div class="breadcrumb-item-checkout col-2" :class="{active: activepage === 'second' || activepage === 'third' ||  activepage === 'fourth' || activepage === 'fifth' || activepage === 'sixth'}">
-            <div v-if="activepage == 'second' || activepage === 'third' ||  activepage === 'fourth'"><router-link to="/checkout" class="routerlink"><span class="badge badge-dark">2</span>
-            <span>Account</span></router-link></div>
+            <div v-if="activepage == 'second' || activepage === 'third' ||  activepage === 'fourth'" @click="linkToAccount()"><span class="badge badge-dark">2</span>
+            <span class="routerlink">Account</span></div>
             <div v-else><span class="badge badge-dark">2</span>
             <span>Account</span></div>
         </div>
@@ -75,6 +75,7 @@
 
 .breadcrumb-checkout .routerlink {
     color: white;
+    cursor: pointer;
 }  
 
 .breadcrumb-checkout .routerlink:hover {
@@ -99,6 +100,17 @@ export default {
             fourth: false,
             fifth: false,
             sixth: false,
+            authenticated: false
+        }
+    },
+    methods: {
+        linkToAccount () {
+            console.log(this.authenticated)
+            if (this.authenticated == true) {
+                this.$router.push('/checkout-auth')
+            } else {
+                this.$router.push('/checkout')
+            }
         }
     },
     created: {
@@ -107,6 +119,9 @@ export default {
                 this.second == true;
             }
         }
+    },
+    mounted () {
+        this.authenticated = this.$store.state.isAuthenticated
     }
 }
 </script>

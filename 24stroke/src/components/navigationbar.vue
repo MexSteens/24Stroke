@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="accounttext col-9">
                                     <h4>Mijn account</h4>
-                                    <h1>Welcome {name}</h1>
+                                    <h1>Welkom {name}</h1>
                                 </div>
                             </div>
                         </router-link>
@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="motorcycleimage col-3">
                                     <font-awesome-icon icon="motorcycle"
-                                        :style="{ color: 'white', width: '50px', height: '50px' }" />
+                                        :style="{ color: 'white', width: '45px', height: '45px', marginTop: '-3px' }" />
                                 </div>
                                 <div class="accounttext col-9">
                                     <h4>geselecteerde scooter</h4>
@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="shoppingcartimage col-3">
                                     <font-awesome-icon icon="shopping-cart"
-                                        :style="{ color: 'white', width: '35px', height: '35px' }" />
+                                        :style="{ color: 'white', width: '35px', height: '35px', marginTop: '-3px'}" />
                                 </div>
                                 <div class="accounttext col-9">
                                     <h4>winkelwagentje</h4>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <div class="blackrow col-12">
+            <div class="blackrow col-12" id="hidenav">
                 <div class="row">
                     <div class="motordelen col">
                         <router-link to="/motordelen">
@@ -106,11 +106,52 @@ export default {
             cart: {
                 items: []
             },
-            itemMessage: ''
+            itemMessage: '',
+            below: false,
+            margintop: 0,
+            goingup: false 
         }
     },
     mounted() {
         this.cart = this.$store.state.cart
+        window.addEventListener("scroll", this.scrollFunction)
+    },
+    methods: {
+        scrollFunction(e) {
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                if (this.below == false) {
+                    this.below = true;
+                    this.goingup = true;
+                    var interval = setInterval(() => {
+                        if (this.margintop == -50 || this.marginTop < -50) {
+                            clearInterval(interval)
+                            this.margintop = -50;
+                        }
+                        this.margintop -= 1
+                        document.getElementById("hidenav").style.marginTop = this.margintop + "px"
+                    }, 20);
+                    setTimeout(() => {
+                        this.goingup = false;
+                    }, 1000)
+                }
+            } else {
+                if (this.below == true) {
+                    if (this.goingup == true) {
+                        setTimeout(this.scrollFunction, 200)
+                    } else {
+                        this.below = false;
+                        var interval = setInterval(() => {
+                            if (this.margintop == -1 || this.margintop > 0) {
+                                clearInterval(interval)
+                                this.margintop = -1
+                            }
+                            this.margintop += 1
+                            document.getElementById("hidenav").style.marginTop = this.margintop + "px"
+                        }, 20);
+                    }
+                }
+            }
+        }
     },
     computed: {
         numberOfItems() {
@@ -144,7 +185,9 @@ export default {
 }
 
 .app-navigation {
-    margin-bottom: 110px;
+    padding-bottom: 110px;
+    background-color: #F0F1F2;
+    /* z-index: -4; */
 }
 
 .navigationbar {
@@ -153,12 +196,13 @@ export default {
     position: fixed;
     top: 0;
     z-index: 99;
+    width: 100%;
 }
-
 
 .grayrow {
     background-color: #393939;
     height: 60px;
+    z-index: 1;
 }
 
 .grayrowheight {
@@ -181,8 +225,8 @@ export default {
     /* background-color: #676767; */
     padding-top: 8px !important;
     padding-bottom: 8px;
-    border-left: 12px solid #393939;
-    border-right: 12px solid #393939;
+    /* border-left: 12px solid #393939;
+    border-right: 12px solid #393939; */
 }
 
 .accounttext {
@@ -209,8 +253,8 @@ export default {
 .cartnav {
     /* background-color: #676767; */
     padding-top: 8px !important;
-    border-left: 12px solid #393939;
-    border-right: 12px solid #393939;
+    /* border-left: 12px solid #393939;
+    border-right: 12px solid #393939; */
     width: 12.333333% !important;
 }
 
@@ -219,6 +263,7 @@ export default {
 }
 
 .blackrow {
+    position: relative;
     background-color: #1D1D1D;
     padding-right: 2% !important;
     padding-left: 2% !important;

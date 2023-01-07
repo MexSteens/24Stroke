@@ -72,7 +72,7 @@
                                     <p>E-mail adres</p>
                                 </div>
                                 <div class="email-form">
-                                    <input class="form-control" v-model="emailAddress">
+                                    <input class="form-control" v-model="emailAddress" />
                                 </div>
                                 <div class="email-title">
                                     <p>Herhaal E-mail adres</p>
@@ -157,7 +157,7 @@
                 <div class="row">
                     <div class="vorige-button col-2">
                         <div class="shoppingcart-button">
-                            <button type="button" class="btn btn-dark">
+                            <button type="button" class="btn btn-dark" @click="linkToAccount()">
                                 <span class="button-cart-text">Vorige</span>
                             </button>
                         </div>
@@ -165,7 +165,7 @@
                     <div class="col-8"></div>
                     <div class="volgende-button col-2">
                         <div class="shoppingcart-button">
-                            <button type="submit" class="shoppingcart-buttonbutton btn btn-success" @click="userInfo">
+                            <button type="submit" class="shoppingcart-buttonbutton btn btn-success" @click="userInfo()">
                                 <span class="button-cart-text">Volgende</span>
                             </button>
                         </div>
@@ -215,6 +215,7 @@ export default {
             street: '',
             houseNumber: '',
             phoneNumber: '',
+            authenticated: false
         }
     },
     methods: {
@@ -231,11 +232,35 @@ export default {
             }
 
             this.$store.commit('userInfo', user)
-            console.log(user)
+            this.$router.push({ path: '/checkout-betaling' })
+        },
+        linkToAccount () {
+            console.log(this.authenticated)
+            if (this.authenticated == true) {
+                this.$router.push('/checkout-auth')
+            } else {
+                this.$router.push('/checkout')
+            }
+        },
+        prefill(account) {
+            if (this.authenticated == true) {
+                this.emailAddress = account.emailAddress
+                console.log(account)
+                console.log(this.emailAddress)
+                this.firstName = account.firstName
+                this.lastName = account.lastName
+                this.postalCode = account.postalCode
+                this.city = account.city
+                this.houseNumber = account.houseNumber
+                this.street = account.street
+                this.phoneNumber = account.phoneNumber
+            }
         }
     },
     mounted() {
         this.user = this.$store.state.user
+        this.authenticated = this.$store.state.isAuthenticated
+        this.prefill(this.$store.state.user)
     },
 }
 </script>

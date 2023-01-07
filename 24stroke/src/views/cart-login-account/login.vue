@@ -61,7 +61,7 @@
                                     <div class="register-button">
                                         <div class="shopnubutton col-6">
                                             <button type="button" class="btn btn-dark"
-                                                @click="$router.push('register')">Registreer eenvoudig</button>
+                                                @click="$router.push('registreer')">Registreer eenvoudig</button>
                                         </div>
                                     </div>
                                     <hr class="register-hr">

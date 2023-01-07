@@ -49,19 +49,23 @@
                         </div>
                     </form>
                 </div>
+                <div id="card-element" class="mb-5"></div>
+                <div id="ideal-bank-element">
+                <!-- A Stripe Element will be inserted here. -->
+                </div>
                 <div class="row">
                     <div class="vorige-button col-2">
                         <div class="shoppingcart-button">
-                            <button type="button" class="btn btn-dark">
+                            <router-link to="/checkout-adres"><button type="button" class="btn btn-dark">
                                 <span class="button-cart-text">Vorige</span>
-                            </button>
+                            </button></router-link>
                         </div>
                     </div>
                     <div class="col-8"></div>
                     <div class="volgende-button col-2">
                         <div class="shoppingcart-button">
-                            <button type="submit" class="shoppingcart-buttonbutton btn btn-success">
-                                <span class="button-cart-text">Volgende</span>
+                            <button type="submit" class="shoppingcart-buttonbutton btn btn-success" @click="createStripeToken()">
+                                <span class="button-cart-text">Afrekenen</span>
                             </button>
                         </div>
                     </div>
@@ -193,11 +197,129 @@ img {
 
 <script>
 import CheckoutBreadcrumbs from '@/components/checkoutBreadcrumbs.vue'
+import axios from 'axios'
 
 export default {
     name: 'CheckoutAddress',
     components: {
         CheckoutBreadcrumbs
     },
+    data () {
+        return {
+            cart: {
+                items: []
+            },
+            stripe: {},
+            card: {},
+            ideal: {},
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone: '',
+            house_number: '',
+            street: '',
+            zipcode: '',
+            place: '',
+            user: null
+        }
+    },
+    mounted() {
+        this.cart = this.$store.state.cart
+        this.user = this.$store.state.user
+        this.first_name = this.$store.state.user.firstName
+        this.last_name = this.$store.state.user.lastName
+        this.email = this.$store.state.user.emailAddress
+        this.phone = this.$store.state.user.phoneNumber
+        this.zipcode = this.$store.state.user.postalCode
+        this.place = this.$store.state.user.city
+        this.street = this.$store.state.user.street
+        this.house_number = this.$store.state.user.houseNumber
+
+        if (this.$store.state.cart.items.length > 0) {
+            this.stripe = Stripe('pk_test_51Kk6PTFE6zAlv2VHQhRTMCPyGYwlBGoNAd2QbJl5OHOgU87ErgzMeCWLIJVAo2HLSKVNTgfzD8gjBiPwFBZ1qch400cBR1sLzQ')
+            const elements = this.stripe.elements();
+            // this.card = elements.create('card', { hidePostalCode: true })
+            // this.card.mount('#card-element')
+            this.ideal = elements.create('idealBank')
+            this.ideal.mount("#ideal-bank-element")
+        }
+    },
+    methods: {
+        createStripeToken() {
+            this.$store.commit('setIsLoading', true)
+            // if (this.card != null) {
+            //     this.stripe.createToken(this.card).then(result => {
+            //         if (result.error) {
+            //             this.$store.commit('setIsLoading', false)
+            //             // this.errors.push('Something went wrong with Stripe. Please try again')
+            //             console.log(result.error.message)
+            //         } else {
+            //             this.stripeTokenHandler(result.token, false)
+            //         }
+            //     })
+            // } else {
+                console.log('ideal if-else')
+                this.stripeTokenHandler(null, true)
+            // }
+        },
+        async stripeTokenHandler(token, ideal) {
+            const items = []
+            for (let i = 0; i < this.cart.items.length; i++) {
+                const item = this.cart.items[i]
+                const obj = {
+                    product: item.product.id,
+                    quantity: item.quantity,
+                    price: item.product.price* item.quantity
+                }
+
+                items.push(obj)
+            }
+
+            const data = {
+                'first_name': this.first_name,
+                'last_name': this.last_name,
+                'email': this.email,
+                'house_number': this.house_number,
+                'street': this.street,
+                'zipcode': this.zipcode,
+                'phone': this.phone,
+                'city': this.place,
+                'items': items,
+                // 'stripe_token': token.id
+            }
+
+            await axios
+                .post('/api/v1/checkout/', data)
+                .then(response => {
+                    this.$store.commit('clearCart')
+                    console.log("checkout post complete")
+                    // this.$router.push('/cart/success')
+                    if (ideal == true) {
+                        this.idealPayment(response.data)
+                    }
+                })
+                .catch(error => {
+                    // this.errors.push('Something went wrong. Please try again')
+
+                    console.log(error)
+                })
+
+                this.$store.commit('setIsLoading', false)
+        },
+        async idealPayment(token) {
+            const {error} = await this.stripe.confirmIdealPayment(
+                token,
+                {
+                    payment_method: {
+                        ideal: this.ideal,
+                        billing_details: {
+                            name: this.first_name + " " + this.last_name,
+                        },
+                    },
+                    return_url: 'https://localhost:8080/cart/success',
+                }
+            )
+        }
+    }
 }
 </script>

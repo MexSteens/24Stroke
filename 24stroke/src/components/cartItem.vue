@@ -4,7 +4,7 @@
             <div class="row main align-items-center">
                 <div class="image-padding-cart col-2">
                     <div class="row justify-content-center">
-                        <div class="col-10"><img class="img-fluid" v-bind:src="item.product.get_image"></div>
+                        <div class="col-10"><img class="img-fluid" v-bind:src="item.product.get_thumbnail"></div>
                     </div>
                 </div>
                 <div class="cart-product-title col-6">

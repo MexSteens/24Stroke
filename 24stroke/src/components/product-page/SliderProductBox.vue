@@ -217,10 +217,16 @@ export default {
     padding-top: 15px;
 }
 
-.shoppingcart-buttonbutton {
+.shoppingcart-buttonbutton, .shoppingcart-buttonbutton-disabled {
     width: 100%;
     background-color: #1cad00 !important;
     border-color: #1cad00 !important;
+}
+
+.shoppingcart-buttonbutton-disabled {
+    cursor: not-allowed !important;
+    background-color: #1dad0091 !important;
+    border-color: #1dad0091 !important;
 }
 
 .product-title {

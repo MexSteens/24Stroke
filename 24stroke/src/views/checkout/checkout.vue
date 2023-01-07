@@ -117,7 +117,7 @@ export default {
     },
     created() {
         if (store.state.isAuthenticated == true){
-            this.$router.push('/checkoutadres')
+            this.$router.push('/checkout-adres')
         }
     }
 }

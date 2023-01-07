@@ -47,7 +47,10 @@
                                 </div>
                             </div>
                             <div class="shoppingcart-button">
-                                <button type="button" class="shoppingcart-buttonbutton btn btn-success" @click="$router.push('checkout')">
+                                <button v-if="cart.items.length == 0" type="button" class="shoppingcart-buttonbutton-disabled btn btn-success">
+                                    <span class="button-cart-text">Afrekenen</span>
+                                </button>
+                                <button v-if="cart.items.length > 0" type="button" class="shoppingcart-buttonbutton btn btn-success" @click="$router.push('checkout')">
                                     <span class="button-cart-text">Afrekenen</span>
                                 </button>
                             </div>
