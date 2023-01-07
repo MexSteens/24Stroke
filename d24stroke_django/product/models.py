@@ -6,8 +6,25 @@ from PIL import Image as PImage
 
 from django.core.files import File
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
 
 # Create your models here.
+class Address(models.Model):
+    country = models.CharField(max_length=255, default="Nederland", blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    postal_code = models.CharField(max_length=7, blank=True, null=True)
+    street = models.CharField(max_length=255, blank=True, null=True)
+    house_number = models.CharField(max_length=255, blank=True, null=True)
+
+
+class User(AbstractUser):
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
+    address = models.ForeignKey(Address, related_name="address", on_delete=models.CASCADE, blank=True, null=True)
+
+
 class Category(models.Model):
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True )
     name = models.CharField(max_length=255)
@@ -87,6 +104,7 @@ class Product(models.Model):
     slug = models.SlugField()
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    discount_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     technical_details = models.ForeignKey(TechnicalDetails, related_name="technical_details", on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
@@ -147,6 +165,16 @@ class Image(models.Model):
         if self.image:
             return 'http://127.0.0.1:8000' + self.image.url
         return ''
+
+class HighlightedProduct(models.Model):
+    product = models.ForeignKey(Product, related_name="highlighted_products", on_delete=models.CASCADE)
+    discounted_deal = models.BooleanField(default=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+    highlight_until = models.DateTimeField()
+
+    def __str__(self):
+        return '%s' % self.product.name
+
 
 class Subscriber(models.Model):
     email = models.EmailField(max_length=255)

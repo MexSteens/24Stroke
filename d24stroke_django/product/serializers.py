@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from .models import Category, Product, Image, TechnicalDetails
+from .models import Category, Product, Image, TechnicalDetails, HighlightedProduct, User
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
+
+class UserRegistrationSerializer(BaseUserRegistrationSerializer):
+    class Meta(BaseUserRegistrationSerializer.Meta):
+        model = User
+        fields = '__all__'
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,6 +48,12 @@ class CategorySerializer(serializers.ModelSerializer):
             "get_absolute_url",
             "products",
         )
+
+class HighlightedProductSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    class Meta:
+        model = HighlightedProduct
+        fields = '__all__'
 
 # class SubCategorySerializer(serializers.ModelSerializer):
 #     class Meta:

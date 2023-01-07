@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STRIPE_SECRET_KEY = 'sk_test_51Kk6PTFE6zAlv2VH1Le2bcYNMwWNRmSBTgnwCXAUEef2CyYgwqkkzZrRuRbm7vLtU3w26h4ZVeDPCL6votz3VveV00ub6euT6k'
 
 # Application definition
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'djoser',
 
     'product',
+    'order'
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -111,13 +113,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'product.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 

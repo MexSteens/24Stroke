@@ -8,8 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from .models import Product, Category, Subscriber, Image
-from .serializers import CategorySerializer, ProductSerializer, ImageSerializer
+from .models import Product, Category, Subscriber, Image, HighlightedProduct
+from .serializers import CategorySerializer, ProductSerializer, ImageSerializer, HighlightedProductSerializer
 
 # Create your views here.
 class LatestProductsList(APIView):
@@ -52,6 +52,18 @@ class CategoryDetail(APIView):
     def get(self, request, category_slug, format=None):
         category = self.get_object(category_slug)
         serializer = CategorySerializer(category)
+        return Response(serializer.data)
+
+class HighlightedProductDetail(APIView):
+    # def get_object (self):
+    #     try:
+    #         return HighlightedProduct.objects.get()
+    #     except HighlightedProduct.DoesNotExist:
+    #         raise "errorororor"
+    
+    def get(self, request, format=None):
+        highlighted_product = HighlightedProduct.objects.all()[0:4]
+        serializer = HighlightedProductSerializer(highlighted_product, many=True)
         return Response(serializer.data)
 
 @api_view(['POST'])
