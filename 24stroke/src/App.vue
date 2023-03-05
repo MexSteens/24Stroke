@@ -71,6 +71,8 @@ a {
 }
 </style>
 
+<!-- <script src="https://www.paypal.com/sdk/js?client-id=ARi8e5oF2x7FNtlDq9I4ETPpJ10Su3-wq8lWc2fHaRq_uaz8QZxnTqcsP2sgkIAyxI9ZvDOZCT8XexND&currency=EUR&debug=true"></script> -->
+
 <script>
 import axios from 'axios'
 

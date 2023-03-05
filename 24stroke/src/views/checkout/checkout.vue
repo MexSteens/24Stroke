@@ -10,6 +10,11 @@
                 <div class="checkout-account-section">
                     <div class="row">
                         <div class="login-section col-6">
+                            <div class="show-errors" v-if="errors.length">
+                                <div class="toasts" v-for="(error, index) in errors" :key="index">
+                                    <errorToast :message=errors[index] />
+                                </div>
+                            </div>
                             <form @submit.prevent="submitForm">
                                 <div class="login-title">
                                     <h2>Inloggen</h2>
@@ -109,15 +114,82 @@
 <script>
 import CheckoutBreadcrumbs from '@/components/checkoutBreadcrumbs.vue'
 import store from '../../store'
+import axios from 'axios'
+import errorToast from "@/components/toast/error-toast.vue"
 
 export default {
     name: 'Checkout',
     components: {
-        CheckoutBreadcrumbs
+        CheckoutBreadcrumbs,
+        errorToast
     },
     created() {
         if (store.state.isAuthenticated == true){
             this.$router.push('/checkout-adres')
+        }
+    },
+    data() {
+        return {
+            username: '',
+            password: '',
+            errors: []
+        }
+    },
+    mounted() {
+        document.title = "24stroke | Checkout"
+    },
+    methods: {
+        submitForm() {
+            this.errors = []
+
+            if (this.username === '') {
+                this.errors.push('De gebruikersnaam is niet ingevuld')
+            }
+
+            if (this.password === '') {
+                this.errors.push('Het wachtwoord is niet ingevuld')
+            }
+
+            if (!this.errors.length) {
+                const formData = {
+                    username: this.username,
+                    password: this.password
+                }
+            
+
+            axios.defaults.headers.common["authorization"] = ""
+
+            localStorage.removeItem("token")
+
+            axios
+                .post("/api/v1/token/login/", formData)
+                .then(response => {
+                    const token = response.data.auth_token
+                    this.$store.commit('setToken', token)
+
+                    axios.defaults.headers.common["Authorization"] = "Token " + token
+                    localStorage.setItem("token", token)
+                    // const toPath = this.$route.query.to || '/account'
+                    this.$router.push("/checkout-adres")
+                })
+                .catch(error => {
+                    if (error.response) {
+                        for (const property in error.response.data) {
+                            if (error.response.data[property] == "Unable to log in with provided credentials.") {
+                                this.errors.push('Het e-mail adres en wachtwoord komen niet overeen')
+                            }
+                            else {
+                                this.errors.push(`${error.response.data[property]}`)
+                                console.log(this.errors)
+                            }
+                        }
+                    } else {
+                        this.errors.push('Something went wrong. Please try again')
+
+                        console.log(JSON.stringify(error))
+                    }
+                })
+            }
         }
     }
 }

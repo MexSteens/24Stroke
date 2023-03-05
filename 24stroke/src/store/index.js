@@ -14,14 +14,6 @@ export default new Vuex.Store({
       items: [],
     },
     user: {
-      emailAddress: '',
-      firstName: '',
-      lastName: '',
-      postalCode: '',
-      city: '',
-      street: '',
-      houseNumber: '',
-      phoneNumber: '',
     },
     isAuthenticated: false,
     token: '',
@@ -31,7 +23,9 @@ export default new Vuex.Store({
     },
     recentlyViewed: {
       items: []
-    }
+    },
+    filters: [],
+    technicalDetails: [],
   },
 
   mutations: {
@@ -57,7 +51,15 @@ export default new Vuex.Store({
       }
 
       if (localStorage.getItem('users')) {
-        state.user = localStorage.getItem('users')
+        state.user = JSON.parse(localStorage.getItem('users'))
+      }
+
+      if (localStorage.getItem('filters')) {
+        state.filters = JSON.parse(localStorage.getItem('filters'))
+      }
+
+      if (localStorage.getItem('technicalDetails')) {
+        state.technicalDetails = JSON.parse(localStorage.getItem('technicalDetails'))
       }
     },
     addToCart(state, item) {
@@ -91,6 +93,35 @@ export default new Vuex.Store({
       state.user = user
       localStorage.setItem('users', JSON.stringify(state.user))
     },
+    addFilter(state, filter) {
+      state.filters.push(filter)
+      localStorage.setItem('filters', JSON.stringify(state.filters))
+    },
+    addFilterValue(state, oldfilter) {
+      const index = state.filters.indexOf(oldfilter[0])
+      state.filters[index].filtering.push(oldfilter[1])
+      localStorage.setItem('filters', JSON.stringify(state.filters))
+    },
+    removeFilter(state, filter) {
+      const index = state.filters.indexOf(filter)
+      state.filters.splice(index, 1)
+      localStorage.setItem('filters', JSON.stringify(state.filters))
+    },
+    removeFilterValue(state, oldfilter) {
+      const index = state.filters.indexOf(oldfilter[0])
+      const indexnumber = state.filters[index].filtering.indexOf(oldfilter[1].filtering[0])
+      state.filters[index].filtering.splice(indexnumber, 1)
+      localStorage.setItem('filters', JSON.stringify(state.filters))
+    },
+    addTechnicalDetails(state, td) {
+      state.technicalDetails = td
+      localStorage.setItem('technicalDetails', JSON.stringify(state.technicalDetails))
+    },
+    // removeFilter(state, filter) {
+    //   const index = state.filters.indexOf(filter)
+    //   state.filters.splice(index, 1)
+    //   localStorage.setItem('filters', JSON.stringify(state.filters))
+    // },
     setIsLoading(state, status) {
       state.isLoading = status
     },

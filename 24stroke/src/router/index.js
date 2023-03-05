@@ -20,6 +20,7 @@ import CheckoutAdres from '../views/checkout/checkoutaddress.vue'
 import CheckoutBetaling from '../views/checkout/checkoutpayment.vue'
 import CheckoutVerifieren from '../views/checkout/checkoutverify.vue'
 import CheckoutAccountLoggedIn from '../views/checkout/checkoutauth.vue'
+import CheckoutConfirm from '../views/checkout/checkoutconfirm.vue'
 
 
 
@@ -70,6 +71,11 @@ const routes = [
     path: '/checkout-verifieren',
     name: 'checkoutverifieren',
     component: CheckoutVerifieren
+  },
+  {
+    path: '/checkout-bevestiging',
+    name: 'checkoutconfirm',
+    component: CheckoutConfirm
   },
   {
     path: '/login',

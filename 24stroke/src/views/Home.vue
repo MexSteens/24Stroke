@@ -2,10 +2,15 @@
   <div class="home">
     <div class="firstpartbody">
       <div class="row errorrow">
-        <div class="mainimage col-7">
-          <img src="img/icon/vespatest3.jpg" alt="aerox" width="100%" height="600px">
+        <div class="mainimage col-8">
+          <!-- <img src="img/icon/vespatest3.jpg" alt="aerox" width="100%" height="600px"> -->
+          <video loop autoplay muted class="videoInsert">
+            <source src="video/stunt_AdobeExpress.mp4" type="video/mp4">
+            <!-- <source src="video/stunt.ogg" type="video/ogg"> -->
+            Your browser does not support the video tag.
+          </video>
         </div>
-        <div class="sidecolumn col-5">
+        <div class="sidecolumn col-4">
           <div class="sidecolumndiv">
             <div class="container p-4">
               <div class="firstrow row">
@@ -58,6 +63,7 @@
             <div class="enginecolumn col-6">
               <p>motor onderdelen</p>
               <button type="button" class="framedelenbutton btn btn-outline-secondary">Shop nu</button>
+              <!-- <img src="img/engine.jpg" alt="motordelen" class="fit-image-home"> -->
             </div>
             <div class="framecolumn col-6">
               <p>frame onderdelen</p>
@@ -204,6 +210,24 @@ ul {
 
 .enginecolumn p, .framecolumn p, .mechanicalcolumn p, .universalcolumn p {
   margin-top: 20%;
+}
+
+.videoInsert {
+  /* position: absolute;  */
+  right: 0; 
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  width: auto; 
+  height: auto; 
+  /* z-index: -100; */
+  background-size: cover;
+  overflow: hidden;
+}
+
+.fit-image-home {
+  width: 100%;
+  height: auto;
 }
 </style>
 

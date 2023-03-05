@@ -74,12 +74,6 @@
                                 <div class="email-form">
                                     <input class="form-control" v-model="emailAddress" />
                                 </div>
-                                <div class="email-title">
-                                    <p>Herhaal E-mail adres</p>
-                                </div>
-                                <div class="email-form">
-                                    <input class="form-control">
-                                </div>
                         </div>
                         <div class="col-6">
                             <div class="row justify-content-end">
@@ -165,7 +159,7 @@
                     <div class="col-8"></div>
                     <div class="volgende-button col-2">
                         <div class="shoppingcart-button">
-                            <button type="submit" class="shoppingcart-buttonbutton btn btn-success" @click="userInfo()">
+                            <button type="button" class="shoppingcart-buttonbutton btn btn-success" @click="userInfo()">
                                 <span class="button-cart-text">Volgende</span>
                             </button>
                         </div>
@@ -220,7 +214,7 @@ export default {
     },
     methods: {
         userInfo() {
-            const user = {
+            const userAddress = {
                 emailAddress: this.emailAddress,
                 firstName: this.firstName,
                 lastName: this.lastName,
@@ -231,8 +225,8 @@ export default {
                 phoneNumber: this.phoneNumber,
             }
 
-            this.$store.commit('userInfo', user)
-            this.$router.push({ path: '/checkout-betaling' })
+            this.$store.commit('userInfo', userAddress)
+            this.$router.push({ path: 'checkout-betaling' })
         },
         linkToAccount () {
             console.log(this.authenticated)
@@ -245,8 +239,8 @@ export default {
         prefill(account) {
             if (this.authenticated == true) {
                 this.emailAddress = account.emailAddress
-                console.log(account)
-                console.log(this.emailAddress)
+                // console.log(account)
+                // console.log(this.emailAddress)
                 this.firstName = account.firstName
                 this.lastName = account.lastName
                 this.postalCode = account.postalCode
