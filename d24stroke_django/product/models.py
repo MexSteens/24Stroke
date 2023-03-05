@@ -10,23 +10,23 @@ from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
-class Address(models.Model):
-    country = models.CharField(max_length=255, default="Nederland", blank=True, null=True)
-    city = models.CharField(max_length=255, blank=True, null=True)
-    postal_code = models.CharField(max_length=7, blank=True, null=True)
-    street = models.CharField(max_length=255, blank=True, null=True)
-    house_number = models.CharField(max_length=255, blank=True, null=True)
+# class Address(models.Model):
+#     country = models.CharField(max_length=255, default="Nederland", blank=True, null=True)
+#     city = models.CharField(max_length=255, blank=True, null=True)
+#     postal_code = models.CharField(max_length=7, blank=True, null=True)
+#     street = models.CharField(max_length=255, blank=True, null=True)
+#     house_number = models.CharField(max_length=255, blank=True, null=True)
 
 
-class User(AbstractUser):
-    first_name = models.CharField(max_length=255, blank=True, null=True)
-    last_name = models.CharField(max_length=255, blank=True, null=True)
-    phone_number = models.CharField(max_length=255, blank=True, null=True)
-    address = models.ForeignKey(Address, related_name="address", on_delete=models.CASCADE, blank=True, null=True)
+# class User(AbstractUser):
+#     first_name = models.CharField(max_length=255, blank=True, null=True)
+#     last_name = models.CharField(max_length=255, blank=True, null=True)
+#     phone_number = models.CharField(max_length=255, blank=True, null=True)
+#     address = models.ForeignKey(Address, related_name="address", on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Category(models.Model):
-    parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True )
+    # parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True )
     name = models.CharField(max_length=255)
     slug = models.SlugField()
 
@@ -74,7 +74,7 @@ class TechnicalDetails(models.Model):
     variator_roller_weight = models.CharField(max_length=200, blank=True, null=True)
     
     class VariatorRange(models.TextChoices):
-        Standerd = 'Standerd'
+        Standerd = 'Standard'
         Oversized = 'Oversized'
 
     variator_range = models.CharField(choices=VariatorRange.choices, blank=True, null=True, max_length=50)
@@ -97,6 +97,62 @@ class TechnicalDetails(models.Model):
     def __str__(self):
         return self.name
 
+class TechnicalDetailsDutch(models.Model):
+    naam = models.CharField(max_length=255, default="")
+    artikel_nummer = models.CharField(max_length=255, default="")
+    ean = models.IntegerField(default=0)
+    merk = models.CharField(max_length=50, default="")
+    brommer = models.CharField(max_length=255, blank=True, null=True)
+
+    class TuningLevel(models.TextChoices):
+        Original = 'Original'
+        Stage1 = 'Stage 1'
+        Stage2 = 'Stage 2'
+        Stage3 = 'Stage 3'
+        Stage4 = 'Stage 4'
+
+    tuning_level = models.CharField(choices=TuningLevel.choices, blank=True, null=True, max_length=50)
+    materiaal = models.CharField(max_length=30, blank=True, null=True)
+    kleur = models.CharField(max_length=40)
+    cilinderinhoud = models.CharField(max_length=7, blank=True, null=True)
+    pistonpen = models.CharField(max_length=7, blank=True, null=True)
+    boring = models.CharField(max_length=7, blank=True, null=True)
+    krukas_slag = models.CharField(max_length=40, blank=True, null=True)
+    drijfstang_lengte = models.CharField(max_length=40, blank=True, null=True)
+    draad_bougie = models.CharField(max_length=40, blank=True, null=True)
+    type_carburateur = models.CharField(max_length=10, blank=True, null=True)
+    diameter_carburateur = models.CharField(max_length=7, blank=True, null=True)
+    luchtfilter_connectie = models.CharField(max_length=7, blank=True, null=True)
+    spruitstuk_connectie = models.CharField(max_length=7, blank=True, null=True)
+    choke_carburateur = models.CharField(max_length=50, blank=True, null=True)
+    poorten_carburateur = models.CharField(max_length=255, blank=True, null=True)
+    grootte_rollen_variateur = models.CharField(max_length=50, blank=True, null=True)
+    gewicht_rollen_variateur = models.CharField(max_length=200, blank=True, null=True)
+    
+    class VariatorRange(models.TextChoices):
+        Standerd = 'Standaard'
+        Oversized = 'Oversized'
+
+    lengte_variateur = models.CharField(choices=VariatorRange.choices, blank=True, null=True, max_length=50)
+    diameter_koppeling = models.CharField(max_length=7, blank=True, null=True)
+    type_transmissie = models.CharField(max_length=25, blank=True, null=True)
+
+    class IgnitionLightingSupply(models.TextChoices):
+        Yes = 'Met lichtspoel'
+        No = 'zonder lichtspoel'
+
+    lichtspoel_ontsteking = models.CharField(choices=IgnitionLightingSupply.choices, blank=True, null=True, max_length=50)
+    style_lamp = models.CharField(max_length=20, blank=True, null=True)
+    voltage_lamp = models.CharField(max_length=40, blank=True, null=True)
+    breedte_band = models.CharField(max_length=50, blank=True, null=True)
+    hoogte_band = models.CharField(max_length=50, blank=True, null=True)
+    velg_diameter_band = models.CharField(max_length=50, blank=True, null=True)
+    code_band = models.CharField(max_length=50, blank=True, null=True)
+    toepassing_band = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.naam
+
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
@@ -106,6 +162,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     discount_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     technical_details = models.ForeignKey(TechnicalDetails, related_name="technical_details", on_delete=models.CASCADE, blank=True, null=True)
+    technical_details_dutch = models.ForeignKey(TechnicalDetailsDutch, related_name="technical_details_dutch", on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
     # images = models.ManyToManyField(Image, related_name='images', on_delete=models.CASCADE, null=True, blank=True)

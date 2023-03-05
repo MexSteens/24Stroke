@@ -3,6 +3,8 @@ from django.db.models import Q
 from django.http import Http404
 import json
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -43,6 +45,8 @@ class ProductDetail(APIView):
         return Response(serializer.data)
 
 class CategoryDetail(APIView):
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id', 'name']
     def get_object (self, category_slug):
         try:
             return Category.objects.get(slug=category_slug)
@@ -53,6 +57,16 @@ class CategoryDetail(APIView):
         category = self.get_object(category_slug)
         serializer = CategorySerializer(category)
         return Response(serializer.data)
+
+class ProductsDetailView(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = {'category': ["in", "exact"], 'description': ["in", "exact"], 'technical_details__brand': ["in", "exact"], 'technical_details__colour': ["in", "exact"], 'technical_details__tuning_level': ["in", "exact"], 'technical_details__material': ["in", "exact"], 'technical_details__cylinder_displacement': ["in", "exact"], 'technical_details__cylinder_piston_pin': ["in", "exact"], 'technical_details__cylinder_bore': ["in", "exact"], 'technical_details__cylinder_stroke': ["in", "exact"], 'technical_details__cylinder_conrod_length': ["in", "exact"], 'technical_details__bougie_thread': ["in", "exact"], 'technical_details__carburetor_type': ["in", "exact"], 'technical_details__carburetor_diameter': ["in", "exact"], 'technical_details__carburetor_airfilter_connection': ["in", "exact"], 'technical_details__carburetor_manifold_connection': ["in", "exact"], 'technical_details__carburetor_choke': ["in", "exact"], 'technical_details__carburetor_ports': ["in", "exact"], 'technical_details__variator_roller_size': ["in", "exact"], 'technical_details__variator_roller_weight': ["in", "exact"], 'technical_details__variator_range': ["in", "exact"], 'technical_details__clutch_diameter': ["in", "exact"], 'technical_details__transmission_type': ["in", "exact"], 'technical_details__ignition_lighting_supply': ["in", "exact"], 'technical_details__light_style': ["in", "exact"], 'technical_details__light_voltage': ["in", "exact"], 'technical_details__tire_width': ["in", "exact"], 'technical_details__tire_height': ["in", "exact"], 'technical_details__tire_rim_diameter': ["in", "exact"], 'technical_details__tire_code': ["in", "exact"], 'technical_details__tire_application': ["in", "exact"],
+    'technical_details_dutch__merk': ["in", "exact"], 'technical_details_dutch__kleur': ["in", "exact"], 'technical_details_dutch__tuning_level': ["in", "exact"], 'technical_details_dutch__materiaal': ["in", "exact"], 'technical_details_dutch__cilinderinhoud': ["in", "exact"], 'technical_details_dutch__pistonpen': ["in", "exact"], 'technical_details_dutch__boring': ["in", "exact"], 'technical_details_dutch__krukas_slag': ["in", "exact"], 'technical_details_dutch__drijfstang_lengte': ["in", "exact"], 'technical_details_dutch__draad_bougie': ["in", "exact"], 'technical_details_dutch__type_carburateur': ["in", "exact"], 'technical_details_dutch__diameter_carburateur': ["in", "exact"], 'technical_details_dutch__luchtfilter_connectie': ["in", "exact"], 'technical_details_dutch__spruitstuk_connectie': ["in", "exact"], 'technical_details_dutch__choke_carburateur': ["in", "exact"], 'technical_details_dutch__poorten_carburateur': ["in", "exact"], 'technical_details_dutch__grootte_rollen_variateur': ["in", "exact"], 'technical_details_dutch__gewicht_rollen_variateur': ["in", "exact"], 'technical_details_dutch__lengte_variateur': ["in", "exact"], 'technical_details_dutch__diameter_koppeling': ["in", "exact"], 'technical_details_dutch__type_transmissie': ["in", "exact"], 'technical_details_dutch__lichtspoel_ontsteking': ["in", "exact"], 'technical_details_dutch__style_lamp': ["in", "exact"], 'technical_details_dutch__voltage_lamp': ["in", "exact"], 'technical_details_dutch__breedte_band': ["in", "exact"], 'technical_details_dutch__hoogte_band': ["in", "exact"], 'technical_details_dutch__velg_diameter_band': ["in", "exact"], 'technical_details_dutch__code_band': ["in", "exact"], 'technical_details_dutch__toepassing_band': ["in", "exact"]}
+    search_fields = ['=name']
+    ordering_fields = ['name', 'id']
+    ordering = ['id']
 
 class HighlightedProductDetail(APIView):
     # def get_object (self):

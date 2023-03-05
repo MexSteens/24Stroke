@@ -27,7 +27,7 @@ def checkout(request):
                 amount=int(paid_amount * 100),
                 currency='EUR',
                 description='Charge from 24stroke',
-                payment_method_types=["card", "ideal"],
+                payment_method_types=["card", "ideal", "bancontact", "sofort", "klarna"],
                 # payment_method_data=serializer.validated_data['stripe_token']
             )
             if request.user.is_anonymous == False:
