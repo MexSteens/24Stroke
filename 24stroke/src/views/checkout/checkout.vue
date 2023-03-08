@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="register-button">
                                         <div class="shopnubutton col-6">
-                                            <button type="button" class="btn btn-dark" @click="$router.push('/registreer')">Registreer eenvoudig</button>
+                                            <button type="button" class="btn btn-dark" @click="$router.push({path: '/registreer', params: {redirect: 'checkout'}})">Registreer eenvoudig</button>
                                         </div>
                                     </div>
                                 </div>

@@ -6,6 +6,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Motordelen from '../views/navigation/Motordelen.vue'
+import Mechanisch from '../views/navigation/Mechanischedelen.vue'
+import Kits from '../views/navigation/Kits.vue'
+import Frame from '../views/navigation/Framedelen.vue'
+import NonScooter from '../views/navigation/Nonscooterdelen.vue'
+import Universele from '../views/navigation/Universeledelen.vue'
 import Cilinders from '../views/productpages/cilinders-test.vue'
 import Cilinder from '../views/productpages/Cilinder.vue'
 import Cart from '../views/cart-login-account/cart.vue'
@@ -41,6 +46,31 @@ const routes = [
     path: '/motordelen',
     name: 'Motordelen',
     component: Motordelen
+  },
+  {
+    path: '/framedelen',
+    name: 'Framedelen',
+    component: Frame
+  },
+  {
+    path: '/mechanisch',
+    name: 'Mechanische-delen',
+    component: Mechanisch
+  },
+  {
+    path: '/kits',
+    name: 'Kits',
+    component: Kits
+  },
+  {
+    path: '/non-scooter',
+    name: 'Non-Scooter',
+    component: NonScooter
+  },
+  {
+    path: '/universeel',
+    name: 'Universeel',
+    component: Universele
   },
   {
     path: '/winkelwagen',

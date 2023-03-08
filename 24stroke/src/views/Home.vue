@@ -21,24 +21,19 @@
               </div>
               <div class="thirdrow row">
                 <div class="shopnubutton col-6">
+                  <router-link to="/motordelen">
                   <button type="button" class="motordelenbutton btn-lg btn-danger">Motordelen</button>
+                  </router-link>
                 </div>
                 <div class="letmeshopbutton col-6">
-                  <button type="button" class="framedelenbuttonwidth btn-lg btn-outline-secondary">Framedelen</button>
+                  <router-link to="/framedelen">
+                    <button type="button" class="framedelenbuttonwidth btn-lg btn-outline-secondary">Framedelen</button>
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="secondpartbody">
-      <div class="row justify-content-center">
-        <div class="maintenancecolumn col-3"></div>
-        <div class="spacebetween col-1"></div>
-        <div class="kitscolumn col-3"></div>
-        <div class="spacebetween col-1"></div>
-        <div class="racingproductencolumn col-3"></div>
       </div>
     </div>
     <div class="seperatiesegment">
@@ -56,14 +51,24 @@
         <div class="spaceend col-1"></div>
       </div>
     </div>
-    <div class="thirdpartbody">
+    <div class="secondpartbody">
+      <div class="row justify-content-center">
+        <div class="maintenancecolumn col-3 p-0">
+          <img class="imagefit-wheelie" src="img/scooter-race.jpg" alt="wheelie scooter">
+        </div>
+        <div class="spacebetween col-1"></div>
+        <div class="kitscolumn col-3 p-0"> <img class="imagefit-wheelie" src="img/scooter-race.jpg" alt="wheelie scooter"></div>
+        <div class="spacebetween col-1"></div>
+        <div class="racingproductencolumn col-3 p-0"> <img class="imagefit-wheelie" src="img/scooter-race.jpg" alt="wheelie scooter"></div>
+      </div>
+    </div> 
+    <!-- <div class="thirdpartbody">
       <div class="row justify-content-center">
         <div class="col-11">
           <div class="row outline">
             <div class="enginecolumn col-6">
               <p>motor onderdelen</p>
               <button type="button" class="framedelenbutton btn btn-outline-secondary">Shop nu</button>
-              <!-- <img src="img/engine.jpg" alt="motordelen" class="fit-image-home"> -->
             </div>
             <div class="framecolumn col-6">
               <p>frame onderdelen</p>
@@ -82,7 +87,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -99,6 +104,7 @@ ul {
 
 .home {
   background-color: #F0F1F2;
+  width: 100%;
 }
 
 .row {
@@ -106,10 +112,12 @@ ul {
 }
 
 .sidecolumndiv {
+  position: relative;
   height: 300px;
   background-color: white;
   margin-left: -25%;
   margin-top: 15%;
+  z-index: 2;
 }
 
 .mainimage, .sidecolumn {
@@ -181,12 +189,16 @@ ul {
 }
 
 .maintenancecolumn, .kitscolumn, .racingproductencolumn {
-  width: 100%;
   height: 400px;
   border: 1px solid rgb(53, 53, 53);
 }
 
-
+.imagefit-wheelie {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0px !important;
+}
 
 .seperatiesegment {
   margin-top: 50px;

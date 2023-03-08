@@ -64,7 +64,7 @@
                             </div>
                             <div class="register-button">
                                 <div class="shopnubutton col-6">
-                                    <button type="button" class="btn btn-dark" @click="$router.push('login')">Log
+                                    <button type="button" class="btn btn-dark" @click="routeredirect()">Log
                                         in</button>
                                 </div>
                             </div>
@@ -248,6 +248,13 @@ export default {
             }
 
             console.log(this.errors)
+        },
+        routeredirect() {
+            if(this.$route.params == 'checkout') {
+                this.$router.push({path: 'login', params: {redirect: 'checkout'}})
+            } else {
+                this.$router.push('login')
+            }
         }
     }
 }

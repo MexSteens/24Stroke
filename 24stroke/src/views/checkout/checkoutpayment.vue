@@ -460,7 +460,7 @@ export default {
                             name: this.first_name + " " + this.last_name,
                         },
                     },
-                    return_url: 'http://localhost:8080/checkout-verifieren',
+                    return_url: 'https://24stroke.mexsteens.tech/checkout-verifieren',
                 }
             )
         },
@@ -511,7 +511,7 @@ export default {
                             name: this.first_name + " " + this.last_name,
                         },
                     },
-                    return_url: 'http://localhost:8080/checkout-verifieren',
+                    return_url: 'https://24stroke.mexsteens.tech/checkout-verifieren',
                 }
             )
         },
@@ -525,7 +525,7 @@ export default {
                             country: "NL",
                         },
                     },
-                    return_url: 'http://localhost:8080/checkout-verifieren',
+                    return_url: 'https://24stroke.mexsteens.tech/checkout-verifieren',
                 }
             )
         },

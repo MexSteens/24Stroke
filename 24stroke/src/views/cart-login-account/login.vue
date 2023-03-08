@@ -197,8 +197,7 @@ export default {
 
                     axios.defaults.headers.common["Authorization"] = "Token " + token
                     localStorage.setItem("token", token)
-                    const toPath = this.$route.query.to || '/account'
-                    this.$router.push(toPath)
+                    this.routeredirect()
                 })
                 .catch(error => {
                     if (error.response) {
@@ -217,6 +216,15 @@ export default {
                         console.log(JSON.stringify(error))
                     }
                 })
+            }
+        },
+        routeredirect() {
+            if(this.$route.params == 'checkout') {
+                const toPath = this.$route.query.to || '/checkout-adres'
+                this.$router.push(toPath)
+            } else {
+                const toPath = this.$route.query.to || '/account'
+                this.$router.push(toPath)
             }
         }
     }

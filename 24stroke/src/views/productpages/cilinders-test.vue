@@ -2,29 +2,37 @@
     <div class="cilinders-product-page">
         <div class="row justify-content-center">
             <div class="col-10">
-                <div class="breadcrumbs">
-                    <ul class="breadcrumb">
-                        <li><a href="/"><font-awesome-icon icon="home" /></a></li>
-                        <li><a href="#">{selected moped}</a></li>
-                        <li><a href="/motordelen">Motordelen</a></li>
-                        <li>Cilinders</li>
-                    </ul>
-                    <hr class="breadcrumbs-line">
+                <div v-if="no_products">
+                    <div id="message">
+                        <svg class="construction" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 32 32"><path fill="#8b8891" d="M5.5 2.5h0a2 2 0 0 1 2 2v27a0 0 0 0 1 0 0h-4a0 0 0 0 1 0 0V4.5A2 2 0 0 1 5.5 2.5zM26.5 2.5h0a2 2 0 0 1 2 2v27a0 0 0 0 1 0 0h-4a0 0 0 0 1 0 0V4.5A2 2 0 0 1 26.5 2.5z"/><rect width="31" height="8" x=".5" y="15.5" fill="#d8d9dc" rx="2" ry="2"/><polyline fill="none" points="4.48 15.5 3.5 17.46 .89 22.68"/><path fill="#ff5252" d="M4.48 15.5L3.5 17.46.89 22.68A1.944 1.944 0 0 1 .5 21.5v-4a2.006 2.006 0 0 1 2-2zM27.52 23.5l.98-1.96 2.61-5.22a1.944 1.944 0 0 1 .39 1.18v4a2.006 2.006 0 0 1-2 2z"/><polygon fill="#ff5252" points="10.52 15.5 7.5 21.53 6.52 23.5 10.98 23.5 14.98 15.5 10.52 15.5"/><polygon fill="#ff5252" points="25.5 15.5 24.5 17.49 21.5 23.5 17.02 23.5 21.02 15.5 25.5 15.5"/><rect width="31" height="5" x=".5" y="5.5" fill="#d8d9dc" rx="2" ry="2"/><polygon fill="#ff5252" points="9.48 5.5 7.5 9.46 6.98 10.5 2.51 10.5 3.5 8.51 5.01 5.5 9.48 5.5"/><polygon fill="#ff5252" points="13.02 10.5 15.52 5.5 19.98 5.5 17.48 10.5 13.02 10.5"/><path fill="#ff5252" d="M26.02,5.5,24.5,8.54l-.98,1.96H28l.5-1.01,1.91-3.77a1.973,1.973,0,0,0-.91-.22H26.02L24.5,8.54l-.98,1.96H28"/></svg>
+                        <h1>Aan deze pagina word gewerkt</h1>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-2">
-                        <div class="row justify-content-left">
-                            <div class="col-11 product-filter px-3">
-                                <div v-for="technical_detail in technical_details" :key="technical_detail">
-                                    <ProductFilter :technical_detail="technical_detail" :filters="filters" v-on:filterclick="filtercall($event)"/>
+                <div v-else>
+                    <div class="breadcrumbs">
+                        <ul class="breadcrumb">
+                            <li><a href="/"><font-awesome-icon icon="home" /></a></li>
+                            <li><a href="#">{selected moped}</a></li>
+                            <li><a href="/motordelen">Motordelen</a></li>
+                            <li>Cilinders</li>
+                        </ul>
+                        <hr class="breadcrumbs-line">
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="row justify-content-left">
+                                <div class="col-11 product-filter px-3">
+                                    <div v-for="technical_detail in technical_details" :key="technical_detail">
+                                        <ProductFilter :technical_detail="technical_detail" :filters="filters" v-on:filterclick="filtercall($event)"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-10">
-                        <topInformation :results="products.length" />
-                        <div class="row products-row">
-                            <ProductBox  v-for="product in products" :key="product.id" v-bind:product="product" />
+                        <div class="col-10">
+                            <topInformation :results="products.length" />
+                            <div class="row products-row">
+                                <ProductBox  v-for="product in products" :key="product.id" v-bind:product="product" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -37,6 +45,19 @@
 .product-filter {
     background-color: white;
     border-radius: 4px;
+}
+
+#message {
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.7em;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.construction {
+  width: 20%;
+  max-height: 20%;
 }
 </style>
 
@@ -61,7 +82,8 @@ export default {
       },
       technical_details: [],
       category_id: null,
-      filters: []
+      filters: [],
+      no_products: false
     }
   },
   mounted() {
@@ -83,8 +105,10 @@ export default {
             .get(`api/v1/products/${categorySlug}/`)
             .then(response => {
                 this.category_id = response.data.id
+                this.no_products = false;
             })
             .catch(error => {
+                this.no_products = true;
                 console.log(error)
             })
 
@@ -104,6 +128,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error)
+
                 })
 
                 this.$store.commit('setIsLoading', false)
